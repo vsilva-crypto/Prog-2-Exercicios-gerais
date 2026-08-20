@@ -12,6 +12,7 @@ typedef struct
 {
     int linhaInicial, linhaFinal;
     int colunaInicial, colunaFinal;
+    int linhaAtual, colunaAtual;
     char prioridadeMovimento[PRIORIDADE_MOV];
 } jogador;
 
@@ -39,6 +40,11 @@ jogador lePosicoesIniciaisFinais()
     scanf ("%d %d", &jogador.linhaInicial, &jogador.colunaInicial);
     scanf ("%d %d", &jogador.linhaFinal, &jogador.colunaFinal);
 
+    jogador.linhaAtual = jogador.linhaInicial - 1;
+    jogador.colunaAtual = jogador.colunaInicial - 1;
+    jogador.linhaFinal--;
+    jogador.colunaFinal--;
+
     return jogador;
 }
 
@@ -50,6 +56,73 @@ jogador lePrioridadeDeMovimento(jogador jogador)
         scanf (" %c", &jogador.prioridadeMovimento[i]);
     
     return jogador;
+}
+
+void moveJogador(jogador jogador, mapa mapa)
+{
+    int i, andou, chegouAoFim = 0, conseguiuAndar;
+
+    printf ("(%d,%d) ", jogador.linhaAtual + 1, jogador.colunaAtual + 1);
+
+    while (!chegouAoFim)
+    {   
+
+        conseguiuAndar = 0;
+
+        for (i = 0; i < PRIORIDADE_MOV; i++)
+        {
+            andou = 0;
+
+            if ((jogador.prioridadeMovimento[i] == 'c' || jogador.prioridadeMovimento[i] == 'C') &&   
+                jogador.linhaAtual > 0 && mapa.mapa[jogador.linhaAtual - 1][jogador.colunaAtual] == 0)
+            {
+                mapa.mapa[jogador.linhaAtual][jogador.colunaAtual] = 2;
+                jogador.linhaAtual--;
+                andou = 1;
+            }    
+
+            else if ((jogador.prioridadeMovimento[i] == 'b' || jogador.prioridadeMovimento[i] == 'B') && 
+                jogador.linhaAtual < mapa.linhas - 1 && mapa.mapa[jogador.linhaAtual + 1][jogador.colunaAtual] == 0)
+            {
+                mapa.mapa[jogador.linhaAtual][jogador.colunaAtual] = 2;
+                jogador.linhaAtual++;
+                andou = 1;
+            }
+
+            else if ((jogador.prioridadeMovimento[i] == 'd' || jogador.prioridadeMovimento[i] == 'D') &&
+                jogador.colunaAtual < mapa.colunas - 1 && mapa.mapa[jogador.linhaAtual][jogador.colunaAtual + 1] == 0)
+            {
+                mapa.mapa[jogador.linhaAtual][jogador.colunaAtual] = 2;
+                jogador.colunaAtual++;
+                andou = 1;
+            }
+
+            else if ((jogador.prioridadeMovimento[i] == 'e' || jogador.prioridadeMovimento[i] == 'E') && 
+                jogador.colunaAtual > 0 && mapa.mapa[jogador.linhaAtual][jogador.colunaAtual - 1] == 0)
+            {
+                mapa.mapa[jogador.linhaAtual][jogador.colunaAtual] = 2;
+                jogador.colunaAtual--;
+                andou = 1;
+            }
+
+            if (andou)
+            {
+                printf ("(%d,%d) ", jogador.linhaAtual + 1, jogador.colunaAtual + 1);
+
+                conseguiuAndar = 1;
+
+                if (jogador.linhaAtual == jogador.linhaFinal && jogador.colunaAtual == jogador.colunaFinal)
+                    chegouAoFim = 1;
+                
+                break;
+            }
+        }
+
+        if (!conseguiuAndar)
+            break;
+    }
+
+    printf ("\n");
 }
 
 void imprimeTeste(jogador jogador, mapa mapa)
@@ -94,7 +167,7 @@ int main ()
     mapa = inicializaMapa(mapa);
     jogador = lePosicoesIniciaisFinais();
     jogador = lePrioridadeDeMovimento(jogador);
-    imprimeTeste(jogador, mapa);
+    moveJogador(jogador, mapa);
 
     return 0;
 }

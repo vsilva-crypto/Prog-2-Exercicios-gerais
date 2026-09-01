@@ -1,6 +1,18 @@
 #include <stdio.h>
 #include "matrix_utils.h"
 
+void imprimeMenu()
+{
+    printf ("1 - Somar matrizes\n");
+    printf ("2 - Subtrair matrizes\n");
+    printf ("3 - Multiplicar matrizes\n");    
+    printf ("4 - Multiplicacao de uma matriz por escalar\n");
+    printf ("5 - Transposta de uma matriz\n");
+    printf ("6 - Encerrar o programa\n");
+    printf ("Opcao escolhida: ");
+    printf ("\n");
+}
+
 int main ()
 {
     int linhas1, linhas2;

@@ -15,14 +15,15 @@
  */
 int verificaDataValida(int dia, int mes, int ano)
 {
-    int diasNoMes = numeroDiasMes(mes, ano);
-
-    if (ano > 0)
-        if (mes >= 1 && mes <= 12)
-            if (diasNoMes >= 1 || dia <= numeroDiasMes )
-                return 1;
+    if (ano < 1) return 0;
+    if (mes < 1 || mes > 12) return 0;
     
-    return 0;
+    int diaNoMes = numeroDiasMes(mes, ano);
+
+    if (diaNoMes == -1) return 0;
+    if (dia < 1 || dia > diaNoMes) return 0;
+
+    return 1;
 }
 
 /**
@@ -105,9 +106,9 @@ void imprimeMesExtenso(int mes)
  */
 void imprimeDataExtenso(int dia, int mes, int ano)
 {
-    printf ("%02d ", dia);
+    printf ("%02d de ", dia);
     imprimeMesExtenso(mes);
-    printf (" %04d", ano);
+    printf (" de %04d\n", ano);
 }
 
 /**
@@ -239,4 +240,17 @@ int calculaDiferencaDias(int dia1, int mes1, int ano1, int dia2, int mes2, int a
  * @param mes Mês da data.
  * @param ano Ano da data.
  */
-void imprimeProximaData(int dia, int mes, int ano);
+void imprimeProximaData(int dia, int mes, int ano)
+{
+    int qtdDias = numeroDiasMes(mes, ano);
+    
+    if (dia < qtdDias)    
+        imprimeData (dia + 1, mes, ano);
+    
+    else if (dia == qtdDias)
+        if (mes < 12)
+            imprimeData (1, mes + 1, ano);
+        
+        else if (mes == 12)
+            imprimeData (1, 1, ano + 1);
+}

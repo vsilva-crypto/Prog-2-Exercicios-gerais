@@ -27,6 +27,8 @@ void string_copy(char *src, char *dest)
         dest[i] = src[i];
         i++;
     }
+
+    dest[i] = '\0';
 }
 
 /**
@@ -38,8 +40,12 @@ void string_upper(char *str)
     int i = 0;
 
     while (str[i] != '\0')
-        if (str[i] >= 'a' || str[i] <= 'z')
+    {
+        if (str[i] >= 'a' && str[i] <= 'z')
             str[i] -= 32;
+        
+        i++;
+    }
 }
 
 /**
@@ -51,8 +57,12 @@ void string_lower(char *str)
     int i = 0;
 
     while (str[i] != '\0')
-        if (str[i] >= 'A' || str[i] <= 'Z')
+    {
+        if (str[i] >= 'A' && str[i] <= 'Z')
             str[i] += 32;
+        
+        i++;
+    }
 }
 
 /**
@@ -62,12 +72,12 @@ void string_lower(char *str)
 void string_reverse(char *str)
 {
     int tam = string_length(str);
-    int i = tam, j = 0;
+    int i = tam - 1, j = 0;
     char tempString[tam + 1];
 
     string_copy(str, tempString);
 
-    while (j != '\0')
+    while (str[j] != '\0')
     {
         str[j] = tempString[i];
         i--;

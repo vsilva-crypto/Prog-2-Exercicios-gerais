@@ -5,7 +5,7 @@
 
 struct gerenciadorpacotes
 {
-    tPacote *pacotes;
+    tPacote **pacotes;
     int qtd;
 };
 
@@ -37,7 +37,9 @@ tGerenciador* CriaGerenciador()
  */
 void AdicionaPacoteNoGerenciador(tGerenciador* geren, tPacote* pac)
 {
-
+    geren->pacotes = realloc (geren->pacotes, (geren->qtd + 1) * sizeof (tPacote **));
+    geren->pacotes[geren->qtd] = pac;
+    geren->qtd++;
 }
 
 
@@ -49,7 +51,11 @@ void AdicionaPacoteNoGerenciador(tGerenciador* geren, tPacote* pac)
  */
 void DestroiGerenciador(tGerenciador* geren)
 {
+    for (int i = 0; i < geren->qtd; i++)
+        DestroiPacote(geren->pacotes[i]);
 
+    free (geren->pacotes);
+    free (geren);
 }
 
 /**
@@ -61,8 +67,8 @@ void DestroiGerenciador(tGerenciador* geren)
  */
 void ImprimirPacoteNoIndice(tGerenciador* geren, int idx)
 {
-
-}
+    ImprimePacote(geren->pacotes[idx]);
+}   
 
 
 /**
@@ -73,5 +79,6 @@ void ImprimirPacoteNoIndice(tGerenciador* geren, int idx)
  */
 void ImprimirTodosPacotes(tGerenciador* geren)
 {
-
-}
+    for (int i = 0; i < geren->qtd; i++)
+        ImprimePacote(geren->pacotes[i]);
+}   

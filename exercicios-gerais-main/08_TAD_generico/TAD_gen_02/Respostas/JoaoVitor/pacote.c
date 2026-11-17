@@ -91,13 +91,25 @@ void ImprimePacote(tPacote* pac)
     switch (pac->tipo)
     {
         case CHAR:
+            printf ("%d ", pac->soma);   
+
             for (int i = 0; i < pac->tam; i++)
-                printf ("%c\n", *((char *)pac->vetor + i));
+            {
+                printf ("%c", *((char *)pac->vetor + i));
+            }
+            
+            printf ("\n");
             break;
         
         case INT: 
+            printf ("%d ", pac->soma);
+
             for (int i = 0; i < pac->tam; i++)
-                printf ("\n", *((int *)pac->vetor + i));
+            {
+                printf ("%d ", *((int *)pac->vetor + i));
+            }
+
+            printf ("\n");
             break;
             
         default:
